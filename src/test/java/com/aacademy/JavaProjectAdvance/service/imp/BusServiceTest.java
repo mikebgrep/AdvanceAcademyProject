@@ -29,7 +29,7 @@ public class BusServiceTest {
     @Test
     public void verifyByAll() {
         when(busRepository.findAll()).thenReturn(Collections.emptyList());
-        busRepository.findAll();
+        busServiceImpl.findAll();
         verify(busRepository, times(1)).findAll();
     }
 

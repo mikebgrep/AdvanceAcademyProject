@@ -40,7 +40,7 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public void delete(Long id) {
-        delete(id);
+        stationRepository.deleteById(id);
     }
 
     @Override
