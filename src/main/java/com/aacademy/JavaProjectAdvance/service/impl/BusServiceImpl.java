@@ -1,10 +1,12 @@
 package com.aacademy.JavaProjectAdvance.service.impl;
 
+import com.aacademy.JavaProjectAdvance.exception.DuplicateResourceException;
 import com.aacademy.JavaProjectAdvance.exception.ResourceNotFoundException;
 import com.aacademy.JavaProjectAdvance.model.Bus;
 import com.aacademy.JavaProjectAdvance.repository.BusRepository;
 import com.aacademy.JavaProjectAdvance.service.BusService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -35,7 +37,11 @@ public class BusServiceImpl implements BusService {
 
     @Override
     public Bus save(Bus bus) {
-        return busRepository.save(bus);
+        try {
+            return busRepository.save(bus);
+        } catch (DataIntegrityViolationException exception) {
+            throw new DuplicateResourceException(String.format("Bus with number %s already exists.", bus.getNumber()));
+        }
     }
 
     @Override
