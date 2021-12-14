@@ -1,10 +1,14 @@
 package com.aacademy.JavaProjectAdvance.service.impl;
 
+import com.aacademy.JavaProjectAdvance.exception.DuplicateResourceException;
 import com.aacademy.JavaProjectAdvance.exception.ResourceNotFoundException;
+import com.aacademy.JavaProjectAdvance.model.Bus;
 import com.aacademy.JavaProjectAdvance.model.Station;
 import com.aacademy.JavaProjectAdvance.repository.StationRepository;
+import com.aacademy.JavaProjectAdvance.service.BusService;
 import com.aacademy.JavaProjectAdvance.service.StationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -14,10 +18,12 @@ import java.util.Set;
 public class StationServiceImpl implements StationService {
 
     private final StationRepository stationRepository;
+    private final BusService busService;
 
     @Autowired
-    public StationServiceImpl(StationRepository stationRepository) {
+    public StationServiceImpl(StationRepository stationRepository, BusService busService) {
         this.stationRepository = stationRepository;
+        this.busService = busService;
     }
 
 
@@ -49,13 +55,29 @@ public class StationServiceImpl implements StationService {
         Station updatedStation = Station.builder()
                 .id(foundStation.getId())
                 .name(station.getName())
+                .buses(station.getBuses())
                 .build();
 
-        return save(updatedStation);
+        return stationRepository.save(updatedStation);
     }
 
     @Override
     public Station save(Station station) {
-        return stationRepository.save(station);
+        try {
+            return stationRepository.save(station);
+        } catch (DataIntegrityViolationException exception) {
+            throw new DuplicateResourceException(String.format("Floor with name %S already exists.", station.getName()));
+        }
+
+
+    }
+
+    @Override
+    public void detachStationBus(Long stationId, Set<Long> busesIds) {
+        Station foundStation = findById(stationId);
+        foundStation.getBuses()
+                .removeIf(bus -> busesIds.contains(bus.getId()));
+
+        stationRepository.save(foundStation);
     }
 }

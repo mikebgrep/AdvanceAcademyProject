@@ -9,6 +9,5 @@ import java.util.Optional;
 @Repository
 public interface BusRepository extends JpaRepository<Bus, Long> {
 
-
     Optional<Bus> findByNumber(String number);
 }

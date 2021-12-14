@@ -52,6 +52,8 @@ public class BusServiceTest {
     @Test
     public void verifyFindById() {
         when(busRepository.findById(any(Long.class))).thenReturn(Optional.of(Bus.builder().build()));
+        busServiceImpl.findById(1L);
+        verify(busRepository, times(1)).findById(1L);
     }
 
     @Test

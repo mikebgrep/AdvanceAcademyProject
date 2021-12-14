@@ -1,10 +1,12 @@
 package com.aacademy.JavaProjectAdvance.controller;
 
 import com.aacademy.JavaProjectAdvance.converter.StationConverter;
+import com.aacademy.JavaProjectAdvance.dto.StationDetachBus;
 import com.aacademy.JavaProjectAdvance.dto.StationDto;
 import com.aacademy.JavaProjectAdvance.model.Station;
 import com.aacademy.JavaProjectAdvance.service.StationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,6 +64,12 @@ public class StationController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<StationDto> delete(@PathVariable(value = "{id}") Long id) {
         stationService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping(value = "/detach")
+    public ResponseEntity<HttpStatus> detach(@RequestBody StationDetachBus stationDetachBus) {
+        stationService.detachStationBus(stationDetachBus.getId(), stationDetachBus.getBusesIds());
         return ResponseEntity.ok().build();
     }
 }

@@ -18,4 +18,6 @@ public interface StationService {
     Station update(Station station, Long id);
 
     Station save(Station station);
+
+    void detachStationBus(Long stationId, Set<Long> busesIds);
 }

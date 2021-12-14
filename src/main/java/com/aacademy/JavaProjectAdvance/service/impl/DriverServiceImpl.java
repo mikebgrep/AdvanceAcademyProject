@@ -1,9 +1,11 @@
 package com.aacademy.JavaProjectAdvance.service.impl;
 
+import com.aacademy.JavaProjectAdvance.exception.DuplicateResourceException;
 import com.aacademy.JavaProjectAdvance.exception.ResourceNotFoundException;
 import com.aacademy.JavaProjectAdvance.model.Driver;
 import com.aacademy.JavaProjectAdvance.repository.DriverRepository;
 import com.aacademy.JavaProjectAdvance.service.DriverService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -14,6 +16,7 @@ import java.util.Set;
 public class DriverServiceImpl implements DriverService {
 
     private final DriverRepository driverRepository;
+
 
     public DriverServiceImpl(DriverRepository driverRepository) {
         this.driverRepository = driverRepository;
@@ -33,7 +36,12 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Driver save(Driver driver) {
-        return driverRepository.save(driver);
+        try {
+            return driverRepository.save(driver);
+        } catch (DataIntegrityViolationException exception) {
+            throw new DuplicateResourceException(String.format("Driver with number %s already exists.", driver.getDriverNumber()));
+        }
+
     }
 
     @Override
@@ -42,6 +50,7 @@ public class DriverServiceImpl implements DriverService {
         Driver updatedDriver = Driver.builder()
                 .id(foundDriver.getId())
                 .driverNumber(driver.getDriverNumber())
+                .bus(driver.getBus())
                 .build();
         return driverRepository.save(updatedDriver);
     }
