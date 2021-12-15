@@ -42,7 +42,7 @@ public class DriverController {
     }
 
     @GetMapping(value = "/number/{number}")
-    public ResponseEntity<DriverDto> findByDriverNumber(@PathVariable String driverNumber) {
+    public ResponseEntity<DriverDto> findByDriverNumber(@PathVariable(value = "number") String driverNumber) {
         return ResponseEntity.ok(driverConverter.toDriverDto(driverService.findByDriverNumber(driverNumber)));
     }
 
