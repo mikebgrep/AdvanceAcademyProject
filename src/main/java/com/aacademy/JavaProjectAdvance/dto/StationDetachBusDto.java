@@ -11,7 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Builder
-public class StationDetachBus {
+public class StationDetachBusDto {
 
     private Long id;
 

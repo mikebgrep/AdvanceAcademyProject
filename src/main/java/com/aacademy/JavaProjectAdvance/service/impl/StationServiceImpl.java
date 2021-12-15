@@ -66,7 +66,7 @@ public class StationServiceImpl implements StationService {
         try {
             return stationRepository.save(station);
         } catch (DataIntegrityViolationException exception) {
-            throw new DuplicateResourceException(String.format("Floor with name %S already exists.", station.getName()));
+            throw new DuplicateResourceException(String.format("Station with that name %S already exists.", station.getName()));
         }
 
 

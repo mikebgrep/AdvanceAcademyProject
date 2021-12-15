@@ -1,7 +1,7 @@
 package com.aacademy.JavaProjectAdvance.controller;
 
 import com.aacademy.JavaProjectAdvance.converter.StationConverter;
-import com.aacademy.JavaProjectAdvance.dto.StationDetachBus;
+import com.aacademy.JavaProjectAdvance.dto.StationDetachBusDto;
 import com.aacademy.JavaProjectAdvance.dto.StationDto;
 import com.aacademy.JavaProjectAdvance.model.Station;
 import com.aacademy.JavaProjectAdvance.service.StationService;
@@ -68,7 +68,7 @@ public class StationController {
     }
 
     @PutMapping(value = "/detach")
-    public ResponseEntity<HttpStatus> detach(@RequestBody StationDetachBus stationDetachBus) {
+    public ResponseEntity<HttpStatus> detach(@RequestBody StationDetachBusDto stationDetachBus) {
         stationService.detachStationBus(stationDetachBus.getId(), stationDetachBus.getBusesIds());
         return ResponseEntity.ok().build();
     }

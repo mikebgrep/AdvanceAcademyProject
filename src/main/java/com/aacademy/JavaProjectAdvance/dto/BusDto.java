@@ -17,7 +17,7 @@ public class BusDto {
 
     private String number;
 
-    //private Set<Long> stationsIds;
+    private Set<Long> stationsIds;
 
 
 }
