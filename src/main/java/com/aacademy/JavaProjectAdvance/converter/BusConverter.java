@@ -2,7 +2,10 @@ package com.aacademy.JavaProjectAdvance.converter;
 
 import com.aacademy.JavaProjectAdvance.dto.BusDto;
 import com.aacademy.JavaProjectAdvance.model.Bus;
+import com.aacademy.JavaProjectAdvance.model.Station;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 @Component
 public class BusConverter {

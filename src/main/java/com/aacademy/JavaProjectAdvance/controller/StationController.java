@@ -55,14 +55,14 @@ public class StationController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<StationDto> update(@RequestBody @Valid StationDto stationDto, @RequestBody @Valid Long id) {
+    public ResponseEntity<StationDto> update(@RequestBody @Valid StationDto stationDto, @PathVariable Long id) {
         Station station = stationConverter.toStation(stationDto);
         Station updatedStation = stationService.update(station, id);
         return ResponseEntity.ok(stationConverter.toStationDto(stationService.save(updatedStation)));
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<StationDto> delete(@PathVariable(value = "{id}") Long id) {
+    public ResponseEntity<StationDto> delete(@PathVariable Long id) {
         stationService.delete(id);
         return ResponseEntity.ok().build();
     }
