@@ -1,12 +1,16 @@
 package com.aacademy.JavaProjectAdvance.controller;
 
 import com.aacademy.JavaProjectAdvance.converter.StationConverter;
+import com.aacademy.JavaProjectAdvance.dto.StationDetachBusDto;
 import com.aacademy.JavaProjectAdvance.dto.StationDto;
 import com.aacademy.JavaProjectAdvance.model.Station;
 import com.aacademy.JavaProjectAdvance.service.StationService;
+import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import java.util.Set;
@@ -19,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(value = StationController.class)
-public class StationControllerTest extends BaseControllerTest{
+public class StationControllerTest extends BaseControllerTest {
 
     @MockBean
     private StationService stationService;
@@ -37,8 +41,8 @@ public class StationControllerTest extends BaseControllerTest{
         when(stationConverter.toStationDto(any(Station.class))).thenReturn(StationDto.builder().id(1L).name("Levski").build());
 
         mockMvc.perform(post("/stations")
-                .content(reqJson)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .content(reqJson)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(1)))
@@ -53,8 +57,8 @@ public class StationControllerTest extends BaseControllerTest{
         when(stationConverter.toStationDto(any())).thenReturn(stationDto);
 
         mockMvc.perform(put("/stations/1")
-                .content(reqJson)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .content(reqJson)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(1)))
@@ -102,7 +106,5 @@ public class StationControllerTest extends BaseControllerTest{
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].id", is(1)));
     }
-
-
 
 }
