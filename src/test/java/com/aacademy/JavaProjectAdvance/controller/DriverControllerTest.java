@@ -4,7 +4,6 @@ import com.aacademy.JavaProjectAdvance.converter.DriverConverter;
 import com.aacademy.JavaProjectAdvance.dto.DriverDto;
 import com.aacademy.JavaProjectAdvance.model.Driver;
 import com.aacademy.JavaProjectAdvance.service.DriverService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -13,8 +12,8 @@ import org.springframework.http.MediaType;
 import java.util.Set;
 
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -50,7 +49,7 @@ public class DriverControllerTest extends BaseControllerTest {
         DriverDto driverDto = DriverDto.builder().id(1L).driverNumber("12345").build();
         String reqJson = objectMapper.writeValueAsString(driverDto);
 
-        when(driverConverter.toDriver(any())).thenReturn(Driver.builder().build());
+        when(driverConverter.toDriverDto(any())).thenReturn(driverDto);
 
         mockMvc.perform(put("/drivers/1")
                 .content(reqJson)
@@ -58,7 +57,7 @@ public class DriverControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.druverNumber", is("12345")));
+                .andExpect(jsonPath("$.driverNumber", is("12345")));
     }
 
     @Test
