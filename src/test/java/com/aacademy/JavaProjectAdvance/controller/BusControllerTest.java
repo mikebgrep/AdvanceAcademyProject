@@ -54,7 +54,7 @@ public class BusControllerTest extends BaseControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.number", is("12")));
+                .andExpect(jsonPath("$.number", is("12a")));
     }
 
     @Test
